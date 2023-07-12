@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Favs Producer tags</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/ﾒ𝟶" />
+</head>
+<body>
+
+<h1>My Favourite Producer tags <3 </h1>
+  <div class="keys">
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">Blackpink</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">Metro 1</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">Metro 2</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">Metro 3</span>
+    </div>
+   
+   
+   
+   
+   
+  </div>
+
+  <audio data-key="70" src="sounds/bp.mp3"></audio>
+  <audio data-key="71" src="sounds/metro.mp3"></audio>
+  <audio data-key="72" src="sounds/metro2.mp3"></audio>
+  <audio data-key="74" src="sounds/metro3.mp3"></audio>
+ 
+
+<script>
+function removeTransition(e) {
+  if (e.propertyName !== 'transform') return;
+  e.target.classList.remove('playing');
+  if (!document.body.classList.contains('playing')) {
+    document.body.style.backgroundImage = ''; // Reset the background image
+  }
+}
+
+function playSound(e) {
+  const audioData = {
+    70: {
+      audioSrc: 'sounds/bp.mp3',
+      imageSrc: 'bp.jpg'
+    },
+    71: {
+      audioSrc: 'sounds/metro.mp3',
+      imageSrc: 'metrof.jpg'
+    },
+    72: {
+      audioSrc: 'sounds/metro2.mp3',
+      imageSrc: 'metroif.jpg'
+    },
+    74: {
+      audioSrc: 'sounds/metro3.mp3',
+      imageSrc: 'mtroo.jpg'
+    }
+    // Add more key codes, audio paths, and image paths as needed
+  };
+
+  const keyCode = e.keyCode;
+  const key = document.querySelector(`div[data-key="${keyCode}"]`);
+  const audioDataForKey = audioData[keyCode];
+  
+  if (!audioDataForKey) return;
+
+  key.classList.add('playing');
+  const audio = new Audio(audioDataForKey.audioSrc);
+  audio.currentTime = 0;
+  audio.play();
+
+  // Change the background image
+  document.body.style.backgroundImage = `url(${audioDataForKey.imageSrc})`;
+  document.body.classList.add('playing');
+
+  // Reset the background image and class when the music finishes playing
+  audio.addEventListener('ended', () => {
+    document.body.style.backgroundImage = '';
+    document.body.classList.remove('playing');
+  });
+}
+
+const keys = Array.from(document.querySelectorAll('.key'));
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+window.addEventListener('keydown', playSound);
+
+
+</script>
+
+
+</body>
+</html>
